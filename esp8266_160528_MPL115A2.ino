@@ -1,5 +1,6 @@
 #include <Wire.h>
 #include "lib_160602_calcAltitude.h"
+#include "esp8266_160602_udpTxToLogger.h"
 
 /*
  * v0.4 2016 Jun. 2
@@ -36,6 +37,9 @@ void setup() {
   delay(3000); // msec
   ReadCoefficient();
 
+  // UDP
+  WiFi_setup();
+  WiFi_printConnectionInfo();
 }
 
 bool ReadCoefficient()
