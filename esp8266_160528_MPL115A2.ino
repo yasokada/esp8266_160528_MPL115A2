@@ -1,4 +1,5 @@
 #include <Wire.h>
+#include "lib_160602_calcAltitude.h"
 
 /*
  * v0.4 2016 Jun. 2
@@ -34,6 +35,7 @@ void setup() {
   Wire.begin();
   delay(3000); // msec
   ReadCoefficient();
+
 }
 
 bool ReadCoefficient()
