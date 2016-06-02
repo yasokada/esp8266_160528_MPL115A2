@@ -3,6 +3,8 @@
 #include "esp8266_160602_udpTxToLogger.h"
 
 /*
+ * v0.5 2016 Jun. 2
+ *   - send to udpLogger 
  * v0.4 2016 Jun. 2
  *   - average over 100 measurements
  *   - PrintPressureAndAltitude() takes [prs] argument
@@ -133,8 +135,23 @@ void PrintPressureAndAltitude(float prs)
 
 void UdpTxAltitude(float prs)
 {
+  float alt;
+  alt = calcAltitude(prs, kAltitudeCorrection);
+
   char szbuf[200];
-  sprintf(szbuf,"TEST from MPL115A2\r\n");
+  int pos = 0;
+  int whl, frac; // whole and fractional parts
+
+  // 1. pressure
+  whl = (int)prs;
+  frac = (int)(prs*100) % 100;
+  pos = sprintf(&szbuf[pos],"Pressure(kPa)=%d.%02d", whl, frac);
+
+  // 2. altitude
+  whl = (int)alt;
+  frac = (int)(alt*100) % 100;
+  pos = sprintf(&szbuf[pos],",Altitude(m)=%d.%02d\r\n", whl, frac);
+
   WiFi_txMessage(szbuf);  
 }
 
