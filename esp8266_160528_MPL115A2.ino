@@ -1,6 +1,8 @@
 #include <Wire.h>
 
 /*
+ * v0.4 2016 Jun. 2
+ *   - add [esp8266_160602_calcAltitude.ino] 
  * v0.3 2016 Jun. 2
  *   - add calcPressure_hPa()
  *   - rename PrintPressure() to PrintPressureAndAltitude()
@@ -126,17 +128,6 @@ float calcPressure_hPa(int iTemp, int iPress)
   f0 = s_a0 + ( s_b1 + s_c12 * iTemp) * iPress + s_b2 * iTemp;
   prs = f0 * ( (115.0 - 50.0) / 1023.0 ) + 50.0;
   return prs;
-}
-
-float calcAltitude(float pressure_hPa, int bias)
-{
-  float ftmp, alt;
-  float pressure_kPa = pressure_hPa * 10;
-
-  ftmp = pow(pressure_kPa / 1013.25, 0.190263);
-  alt = 44330.8 * (1.0 - ftmp);
-  alt = alt + bias;
-  return alt;
 }
 
 void loop() {
