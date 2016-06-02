@@ -131,6 +131,13 @@ void PrintPressureAndAltitude(float prs)
   Serial.println();
 }
 
+void UdpTxAltitude(float prs)
+{
+  char szbuf[200];
+  sprintf(szbuf,"TEST from MPL115A2\r\n");
+  WiFi_txMessage(szbuf);  
+}
+
 float calcPressure_hPa(int iTemp, int iPress) 
 {
   float prs, f0, alt;
@@ -151,7 +158,8 @@ void loop() {
   }
   if (cnt > 0) {
     prs = prs / (float)cnt;
-    PrintPressureAndAltitude(prs);    
+    PrintPressureAndAltitude(prs);
+    UdpTxAltitude(prs);
   }
 
   s_count++;

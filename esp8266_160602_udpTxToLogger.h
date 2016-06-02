@@ -3,5 +3,6 @@
 
 void WiFi_setup();
 void WiFi_printConnectionInfo();
+void WiFi_txMessage(char *srcStr);
 
 #endif

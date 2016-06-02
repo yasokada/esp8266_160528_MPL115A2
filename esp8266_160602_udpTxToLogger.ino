@@ -3,6 +3,7 @@
 
 /*
  * v0.1 2016 Jun. 02
+ *  - add WiFi_txMessage()
  *  - add WiFi_printConnectionInfo()
  *  - add WiFi_setup()
  */
@@ -16,6 +17,8 @@ static const int kPortUdp_logger = 7000;
 
 static const char *kWifiSsid = "esp8266";
 static const char *kWifiPass = "12345678";
+
+static const char *kLoggerIP = "192.168.79.2";
 
 void WiFi_setup()
 {
@@ -34,6 +37,14 @@ void WiFi_printConnectionInfo()
   Serial.println(wifiUdp.localPort());
 }
 
-
+void WiFi_txMessage(char *srcStr)
+{
+  if (srcStr == NULL) {
+    return;
+  }
+  wifiUdp.beginPacket( kLoggerIP, kPortUdp_logger );
+  wifiUdp.write(srcStr);
+  wifiUdp.endPacket();  
+}
 
 
