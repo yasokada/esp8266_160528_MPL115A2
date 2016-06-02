@@ -2,6 +2,7 @@
 
 /*
  * v0.4 2016 Jun. 2
+ *   - average over 100 measurements
  *   - PrintPressureAndAltitude() takes [prs] argument
  *   - add [esp8266_160602_calcAltitude.ino] 
  * v0.3 2016 Jun. 2
@@ -20,6 +21,7 @@
 #define MPL_ADDR (0x60)
 
 static const int kAltitudeCorrection = 0; // TODO: calibration
+static const int kAverageCount = 100;
 
 static float s_a0, s_b1, s_b2, s_c12; // 係数データ
 unsigned long iPress, iTemp;
@@ -132,10 +134,10 @@ float calcPressure_hPa(int iTemp, int iPress)
 }
 
 void loop() {
-  float prs = 0.0;
+  double prs = 0.0;
   int cnt = 0;
   
-  for(int loop=0; loop<10; loop++) {
+  for(int loop=0; loop < kAverageCount; loop++) {
     if (ReadPressureAndTemperature()) {
       prs += calcPressure_hPa(iTemp, iPress);
       cnt++;
