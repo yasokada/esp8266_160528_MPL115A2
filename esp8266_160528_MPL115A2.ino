@@ -2,6 +2,7 @@
 
 /*
  * v0.4 2016 Jun. 2
+ *   - PrintPressureAndAltitude() takes [prs] argument
  *   - add [esp8266_160602_calcAltitude.ino] 
  * v0.3 2016 Jun. 2
  *   - add calcPressure_hPa()
@@ -108,14 +109,14 @@ bool ReadPressureAndTemperature()
   return false;
 }
 
-void PrintPressureAndAltitude()
+void PrintPressureAndAltitude(float prs)
 {
-  float prs, alt;
+  float alt;
 
-  prs = calcPressure_hPa(iTemp, iPress);
+//  prs = calcPressure_hPa(iTemp, iPress);
   Serial.print(s_count);
   Serial.print(", Pressure=");
-  Serial.print(prs);
+  Serial.print(prs, 3);
   alt = calcAltitude(prs, kAltitudeCorrection);
   Serial.print(", Altitude=");
   Serial.print(alt);
@@ -131,7 +132,6 @@ float calcPressure_hPa(int iTemp, int iPress)
 }
 
 void loop() {
-#if 1 // calc  
   float prs = 0.0;
   int cnt = 0;
   
@@ -143,13 +143,9 @@ void loop() {
   }
   if (cnt > 0) {
     prs = prs / (float)cnt;
-    PrintPressureAndAltitude();    
+    PrintPressureAndAltitude(prs);    
   }
-#else
-  if (ReadPressureAndTemperature()) {
-    PrintPressureAndAltitude();
-  }
-#endif
+
   s_count++;
   delay(1000); // msec
 }
