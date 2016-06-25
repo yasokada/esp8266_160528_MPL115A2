@@ -4,6 +4,7 @@
 
 /*
  * v0.8 2016 Jun. 26
+ *   - modify UdpTxAltitude() to have bettern handling as csv format
  *   - tweak delay in loop() to have approximately 1 second in total
  * v0.7 2016 Jun. 26
  *   - esp8266_160602_udpTxToLogger > increase connection retry from 3 to 6
@@ -162,12 +163,12 @@ void UdpTxAltitude(float prs)
   // 1. pressure
   whl = (int)prs;
   frac = (int)(prs*100) % 100;
-  pos = sprintf(&szbuf[pos],"Pressure(kPa)=%d.%02d", whl, frac);
+  pos = sprintf(&szbuf[pos],"Pressure(kPa)=,%d.%02d", whl, frac);
 
   // 2. altitude
   whl = (int)alt;
   frac = (int)(alt*100) % 100;
-  pos = sprintf(&szbuf[pos],",Altitude(m)=%d.%02d\r\n", whl, frac);
+  pos = sprintf(&szbuf[pos],",Altitude(m)=,%d.%02d\r\n", whl, frac);
 
   WiFi_txMessage(szbuf);  
 }
