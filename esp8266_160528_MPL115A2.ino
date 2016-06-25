@@ -4,6 +4,7 @@
 
 /*
  * v0.7 2016 Jun. 26
+ *   - esp8266_160602_udpTxToLogger > increase connection retry from 3 to 6
  *   - esp8266_160602_udpTxToLogger > modify WiFi_setup() to avoid watchdog reset problem
  * v0.6 2016 Jun. 25
  *   - disable watchdog while setup()

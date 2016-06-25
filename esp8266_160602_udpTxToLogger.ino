@@ -3,6 +3,7 @@
 
 /*
  * v0.2 2016 Jun. 26
+ *   - increase connection retry from 3 to 6
  *   - disconnect WiFi when WiFi connection failed
  *   - modify WiFi_setup() to avoid endless while loop
  * v0.1 2016 Jun. 02
@@ -28,7 +29,7 @@ void WiFi_setup()
 {
   WiFi.begin(kWifiSsid, kWifiPass);
 
-  for(int loop = 0; loop < 3; loop++) {
+  for(int loop = 0; loop < 6; loop++) {
     if (WiFi.status() == WL_CONNECTED) {
       s_isWiFiConnected = true;
       break;
