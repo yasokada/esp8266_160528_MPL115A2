@@ -3,6 +3,8 @@
 #include "esp8266_160602_udpTxToLogger.h"
 
 /*
+ * v0.6 2016 Jun. 25
+ *   - disable watchdog while setup()
  * v0.5 2016 Jun. 2
  *   - send to udpLogger 
  * v0.4 2016 Jun. 2
@@ -32,6 +34,8 @@ unsigned long iPress, iTemp;
 static int s_count = 0;
 
 void setup() {
+  wdt_disable();
+
   Serial.begin(115200);
   Serial.println("");
 
@@ -42,6 +46,8 @@ void setup() {
   // UDP
   WiFi_setup();
   WiFi_printConnectionInfo();
+
+  wdt_enable(WDTO_8S);
 }
 
 bool ReadCoefficient()
