@@ -2,6 +2,9 @@
 #include <WiFiUDP.h>
 
 /*
+ * v0.2 2016 Jun. 26
+ *   - disconnect WiFi when WiFi connection failed
+ *   - modify WiFi_setup() to avoid endless while loop
  * v0.1 2016 Jun. 02
  *  - add WiFi_txMessage()
  *  - add WiFi_printConnectionInfo()
@@ -19,14 +22,24 @@ static const char *kWifiSsid = "esp8266";
 static const char *kWifiPass = "12345678";
 
 static const char *kLoggerIP = "192.168.79.2";
+static bool s_isWiFiConnected = false;
 
 void WiFi_setup()
 {
   WiFi.begin(kWifiSsid, kWifiPass);
-  while ( WiFi.status() != WL_CONNECTED) {
-    delay(500); // msec  
+
+  for(int loop = 0; loop < 3; loop++) {
+    if (WiFi.status() == WL_CONNECTED) {
+      s_isWiFiConnected = true;
+      break;
+    }
+    delay(500); // msec
   }
-  wifiUdp.begin(kPortUdp_logger);
+  if (s_isWiFiConnected) {
+    wifiUdp.begin(kPortUdp_logger);  
+  } else {
+    WiFi.disconnect();
+  }
 }
 
 void WiFi_printConnectionInfo()
@@ -42,6 +55,10 @@ void WiFi_txMessage(char *srcStr)
   if (srcStr == NULL) {
     return;
   }
+  if (s_isWiFiConnected == false) {
+    return;
+  }
+  
   wifiUdp.beginPacket( kLoggerIP, kPortUdp_logger );
   wifiUdp.write(srcStr);
   wifiUdp.endPacket();  
