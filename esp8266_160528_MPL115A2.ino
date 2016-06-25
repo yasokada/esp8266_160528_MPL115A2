@@ -3,6 +3,8 @@
 #include "esp8266_160602_udpTxToLogger.h"
 
 /*
+ * v0.8 2016 Jun. 26
+ *   - tweak delay in loop() to have approximately 1 second in total
  * v0.7 2016 Jun. 26
  *   - esp8266_160602_udpTxToLogger > increase connection retry from 3 to 6
  *   - esp8266_160602_udpTxToLogger > modify WiFi_setup() to avoid watchdog reset problem
@@ -139,7 +141,13 @@ void PrintPressureAndAltitude(float prs)
   alt = calcAltitude(prs, kAltitudeCorrection);
   Serial.print(", Altitude=");
   Serial.print(alt);
+#if 0 // for debug of loop() timing (1 second loop)
+  int msec = millis() % 1000;
+  Serial.print(",");
+  Serial.print(msec);
+#endif
   Serial.println();
+
 }
 
 void UdpTxAltitude(float prs)
@@ -189,6 +197,7 @@ void loop() {
   }
 
   s_count++;
-  delay(1000); // msec
+
+  delay(591); // msec // for approximately 1 second loop
 }
 
