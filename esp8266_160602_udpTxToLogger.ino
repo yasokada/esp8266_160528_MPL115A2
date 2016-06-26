@@ -3,6 +3,7 @@
 
 /*
  * v0.3 2016 Jun. 26
+ *   - debug print WiFi strength RSSI
  *   - add debug message (Connected at xth try) in WiFi_setup()
  * v0.2 2016 Jun. 26
  *   - increase connection retry from 6 to 10
@@ -38,7 +39,8 @@ void WiFi_setup()
 
       Serial.print("\nConnected at ");
       Serial.print(loop + 1);
-      Serial.println("th try");
+      Serial.print("th try with RSSI:");
+      Serial.println(WiFi.RSSI());
       break;
     }
     delay(500); // msec

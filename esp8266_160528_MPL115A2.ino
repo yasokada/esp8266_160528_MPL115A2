@@ -4,6 +4,7 @@
 
 /*
  * v0.9 2016 Jun. 26
+ *   - esp8266_160602_udpTxToLogger > debug print WiFi strength RSSI
  *   - esp8266_160602_udpTxToLogger > add debug message (Connected at xth try) in WiFi_setup()
  * v0.8 2016 Jun. 26
  *   - modify UdpTxAltitude() to have bettern handling as csv format
