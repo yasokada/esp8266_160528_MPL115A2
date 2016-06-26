@@ -3,6 +3,8 @@
 #include "esp8266_160602_udpTxToLogger.h"
 
 /*
+ * v0.9 2016 Jun. 26
+ *   - esp8266_160602_udpTxToLogger > add debug message (Connected at xth try) in WiFi_setup()
  * v0.8 2016 Jun. 26
  *   - modify UdpTxAltitude() to have bettern handling as csv format
  *   - tweak delay in loop() to have approximately 1 second in total

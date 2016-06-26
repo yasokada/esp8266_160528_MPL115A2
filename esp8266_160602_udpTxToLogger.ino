@@ -2,6 +2,8 @@
 #include <WiFiUDP.h>
 
 /*
+ * v0.3 2016 Jun. 26
+ *   - add debug message (Connected at xth try) in WiFi_setup()
  * v0.2 2016 Jun. 26
  *   - increase connection retry from 6 to 10
  *   - increase connection retry from 3 to 6
@@ -27,12 +29,16 @@ static const char *kLoggerIP = "192.168.79.2";
 static bool s_isWiFiConnected = false;
 
 void WiFi_setup()
-{
+{  
   WiFi.begin(kWifiSsid, kWifiPass);
 
-  for(int loop = 0; loop < 10; loop++) {
+  for(int loop = 0; loop < 100; loop++) {
     if (WiFi.status() == WL_CONNECTED) {
       s_isWiFiConnected = true;
+
+      Serial.print("\nConnected at ");
+      Serial.print(loop + 1);
+      Serial.println("th try");
       break;
     }
     delay(500); // msec
