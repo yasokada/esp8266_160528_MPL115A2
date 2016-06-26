@@ -32,7 +32,7 @@ void WiFi_setup()
 {  
   WiFi.begin(kWifiSsid, kWifiPass);
 
-  for(int loop = 0; loop < 100; loop++) {
+  for(int loop = 0; loop < 10; loop++) {
     if (WiFi.status() == WL_CONNECTED) {
       s_isWiFiConnected = true;
 
